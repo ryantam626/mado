@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "mado"
+version = "0.1.0"
+description = ""
+authors = ["Ryan Tam <ryantam626@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pywin32 = "^306"
+loguru = "^0.7.2"
+pynput = "^1.7.7"
+zipper = "^0.0.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+ipython = "^8.24.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
