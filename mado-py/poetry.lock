@@ -88,6 +88,17 @@ files = [
 ]
 
 [[package]]
+name = "comtypes"
+version = "1.4.2"
+description = "Pure Python COM package"
+optional = false
+python-versions = "*"
+files = [
+    {file = "comtypes-1.4.2-py3-none-any.whl", hash = "sha256:ce5f9ae2ca9e02b38d790cfd04271c234e12ed44056d0f979e7b7f587c963fe0"},
+    {file = "comtypes-1.4.2.zip", hash = "sha256:eb72473b0dea9495e84c79e340c239012e8572f51dedf726a9dfd7aeaf2a1ffb"},
+]
+
+[[package]]
 name = "decorator"
 version = "5.1.1"
 description = "Decorators for Humans"
@@ -471,6 +482,21 @@ files = [
 six = ">=1.10.0"
 
 [[package]]
+name = "pyvda"
+version = "0.4.3"
+description = "Python implementation of the VirtualDesktopAccessor for manipulating Windows 10 virtual desktops."
+optional = false
+python-versions = "*"
+files = [
+    {file = "pyvda-0.4.3-py3-none-any.whl", hash = "sha256:321972af258c3f3a7e2da98f15016018c89128d20c8e9738c5f4c4568f389d6a"},
+    {file = "pyvda-0.4.3.tar.gz", hash = "sha256:a4ba4c782e7a935c43b0a1355c5af3efe1b52b143c84bd18c40d28ccf5861343"},
+]
+
+[package.dependencies]
+comtypes = "*"
+pywin32 = "*"
+
+[[package]]
 name = "pywin32"
 version = "306"
 description = "Python for Window Extensions"
@@ -587,4 +613,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8d5b28b49688492c3e745740a2f706281e20ae6c24d12c2d25daf2ecb47c6117"
+content-hash = "43dc51ab7e229f3efc6bb7e71e2fc6711b0db2e41c5384a82c42f922122ddac8"

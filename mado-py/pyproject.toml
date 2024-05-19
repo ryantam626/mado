@@ -14,6 +14,7 @@ pywin32 = "^306"
 loguru = "^0.7.2"
 pynput = "^1.7.7"
 zipper = "^0.0.3"
+pyvda = "^0.4.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
