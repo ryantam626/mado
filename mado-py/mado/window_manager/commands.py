@@ -14,6 +14,11 @@ class FocusVirtualDesktop(WindowManagerCommand):
     virtual_desktop_id: int
 
 
+@dataclasses.dataclass
+class SendToVirtualDesktop(WindowManagerCommand):
+    virtual_desktop_id: int
+
+
 class StateDump(WindowManagerCommand):
     """Dumping internal state of the window manager"""
 

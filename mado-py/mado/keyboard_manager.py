@@ -4,7 +4,7 @@ import typing
 from loguru import logger
 from pynput import keyboard
 
-from mado.types_ import VIRTUAL_DESKTOP_ID
+from mado.types_ import SCREEN_ID, VIRTUAL_DESKTOP_ID
 from mado.window_manager import commands
 
 parse = keyboard.HotKey.parse
@@ -27,12 +27,31 @@ class KeyboardManager(keyboard.Listener):
 
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+1", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(1))),
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+2", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(2))),
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+3", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(3))),
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+4", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(4))),
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+5", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(5))),
         Keybind("<ctrl>+<alt>+<cmd>+1", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(1))),
         Keybind("<ctrl>+<alt>+<cmd>+2", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(2))),
         Keybind("<ctrl>+<alt>+<cmd>+3", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(3))),
         Keybind("<ctrl>+<alt>+<cmd>+4", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(4))),
         Keybind("<ctrl>+<alt>+<cmd>+5", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(5))),
+        Keybind("<ctrl>+<alt>+<cmd>+t", commands.ToggleMaximise()),
+        Keybind("<ctrl>+<alt>+<cmd>+g", commands.Minimise()),
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+u", commands.MoveToScreen(SCREEN_ID("LEFT"))),
+        Keybind("<ctrl>+<alt>+<cmd>+<shift>+i", commands.MoveToScreen(SCREEN_ID("RIGHT"))),
+        Keybind("<ctrl>+<alt>+<cmd>+u", commands.FocusScreen(SCREEN_ID("LEFT"))),
+        Keybind("<ctrl>+<alt>+<cmd>+i", commands.FocusScreen(SCREEN_ID("RIGHT"))),
         Keybind("<ctrl>+<alt>+<cmd>+r", commands.StateDump()),
+        Keybind(
+            "<ctrl>+<alt>+<cmd>+j",
+            commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.forward),
+        ),
+        Keybind(
+            "<ctrl>+<alt>+<cmd>+k",
+            commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.backward),
+        ),
     ]
 
     def __init__(self, event_queue: queue.Queue, *args, **kwargs) -> None:

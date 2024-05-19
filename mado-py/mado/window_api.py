@@ -8,6 +8,7 @@ from pynput.mouse import Button, Controller
 from win32api import SetCursorPos
 from win32gui import GetForegroundWindow
 
+from mado.config import IGNORED_WINDOW_TITLES
 from mado.types_ import COORDINATES_ISH, MONITOR_HANDLE
 
 
@@ -150,19 +151,3 @@ def minimise_window(hwnd: int) -> None:
 
 def restore_window(hwnd: int) -> None:
     win32gui.ShowWindow(hwnd, win32con.SW_SHOWNOACTIVATE)
-
-
-def window_unstuck(hwnd: int) -> None:
-    mouse.release(Button.left)
-    is_maximised = win32gui.GetWindowPlacement(hwnd)[1] == win32con.SW_SHOWMAXIMIZED
-    if is_maximised:
-        win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
-    win32gui.SetWindowPos(
-        hwnd,
-        win32con.HWND_TOP,
-        0,
-        0,
-        800,
-        800,
-        0,
-    )
