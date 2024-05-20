@@ -67,7 +67,7 @@ class Screen:
     def remove_window(self, window: Window = WINDOW_AT_CURSOR) -> None:
         if window == WINDOW_AT_CURSOR:
             if self.cursor.at_end():
-                logger.critical("Cannot remove focused window in an empty workspace")
+                logger.info("Cannot remove focused window in an empty workspace")
                 return
             else:
                 self.cursor = self.cursor.remove()
@@ -183,7 +183,7 @@ class WindowManagerState:
         except ValueError:
             pass
 
-        logger.critical(
+        logger.debug(
             "Invalid window {} workspace information, iterating over all screen to set focused window.",
             window,
         )
@@ -193,7 +193,7 @@ class WindowManagerState:
 
     def register_window(self, handle: WINDOW_HANDLE) -> None:
         if handle in self.windows:
-            logger.critical("Duplicated window {} found. Not registering.", handle)
+            logger.debug("Duplicated window {} found. Not registering.", handle)
             return
 
         is_visible = bool(win32gui.IsWindowVisible(handle))
@@ -238,7 +238,7 @@ class WindowManagerState:
     def unregister_window(self, handle: WINDOW_HANDLE) -> typing.Optional[Window]:
         window = self.windows.pop(handle, None)
         if window is None:
-            logger.info("Un-registered window {} - skipping unregister.", handle)
+            logger.debug("Un-registered window {} - skipping unregister.", handle)
             return
 
         window.screen.remove_window(window=window)

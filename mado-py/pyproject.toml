@@ -4,7 +4,8 @@ line-length = 110
 [tool.poetry]
 name = "mado"
 version = "0.1.0"
-description = ""
+description = "This is the Python implementation of a personalised window manager designed for my specific workflow, works only for modern Windows OS."
+license = "MIT"
 authors = ["Ryan Tam <ryantam626@gmail.com>"]
 readme = "README.md"
 
@@ -19,6 +20,9 @@ pyvda = "^0.4.3"
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
 ipython = "^8.24.0"
+
+[tool.poetry.scripts]
+mado-run = 'mado.main:run'
 
 [build-system]
 requires = ["poetry-core"]

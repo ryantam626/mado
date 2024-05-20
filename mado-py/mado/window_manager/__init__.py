@@ -43,7 +43,10 @@ class WindowManager:
     def event_processing_loop(self) -> None:
         logger.info("Starting event processing loop")
         while True:
-            event = self.event_queue.get()
+            try:
+                event = self.event_queue.get(timeout=0.5)  # timeout for a quicker sigint handling.
+            except queue.Empty:
+                continue
 
             if isinstance(event, events.WindowManagerEvent):
                 self.handle_window_manager_event(event)
