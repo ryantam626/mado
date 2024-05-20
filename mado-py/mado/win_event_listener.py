@@ -61,8 +61,8 @@ class WinEventHookListener(threading.Thread):
                     wm_event = wme.MouseCapture(event, window)
                 case (
                     win32con.EVENT_OBJECT_NAMECHANGE
-                ):  # TODO: Figure out if firefox is using this to mimic Show?
-                    logger.critical("Name change {} {} - TODO.", event, window)
+                ):  # TODO: Might need to handle this to handle some weird cases of window creation?
+                    pass
                 case win32con.EVENT_OBJECT_LOCATIONCHANGE:
                     wm_event = wme.Moved(event, window)
         if wm_event is not None:
