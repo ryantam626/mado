@@ -8,7 +8,6 @@ from pynput.mouse import Button, Controller
 from win32api import SetCursorPos
 from win32gui import GetForegroundWindow
 
-from mado.config import IGNORED_WINDOW_TITLES
 from mado.types_ import COORDINATES_ISH, MONITOR_HANDLE
 
 
