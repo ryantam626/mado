@@ -44,6 +44,7 @@ class KeyboardManager(keyboard.Listener):
         Keybind("<ctrl>+<alt>+<cmd>+u", commands.FocusScreen(SCREEN_ID("LEFT"))),
         Keybind("<ctrl>+<alt>+<cmd>+i", commands.FocusScreen(SCREEN_ID("RIGHT"))),
         Keybind("<ctrl>+<alt>+<cmd>+r", commands.StateDump()),
+        Keybind("<ctrl>+<alt>+<cmd>+f", commands.RecreateState()),
         Keybind(
             "<ctrl>+<alt>+<cmd>+j",
             commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.forward),

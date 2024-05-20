@@ -61,3 +61,14 @@ class FocusScreen(WindowManagerCommand):
     """Focus specified screen."""
 
     screen_id: SCREEN_ID
+
+
+@dataclasses.dataclass
+class RecreateState(WindowManagerCommand):
+    """Recreate state of the window manager.
+
+    Useful for cases where window was create via unknown/unhandled means. (E.g. maybe firefox?)
+
+    """
+
+    pass

@@ -123,6 +123,9 @@ class WindowManager:
             maybe_window_to_toggle = self.state.focused_screen.focused_window
             if maybe_window_to_toggle is not None:
                 window_api.window_max_toggle(maybe_window_to_toggle.hwnd)
+        elif isinstance(event, commands.RecreateState):
+            logger.info("Recreating state...")
+            self.state = WindowManagerState.new()
 
     @staticmethod
     def composited_focus_window(window: Window) -> None:
