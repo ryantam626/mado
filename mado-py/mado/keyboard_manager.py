@@ -25,32 +25,34 @@ class Keybind:
 
 
 class KeyboardManager(keyboard.Listener):
+    PREFIX = "<ctrl>+<alt>+<cmd>"
+
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+1", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(1))),
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+2", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(2))),
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+3", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(3))),
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+4", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(4))),
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+5", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(5))),
-        Keybind("<ctrl>+<alt>+<cmd>+1", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(1))),
-        Keybind("<ctrl>+<alt>+<cmd>+2", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(2))),
-        Keybind("<ctrl>+<alt>+<cmd>+3", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(3))),
-        Keybind("<ctrl>+<alt>+<cmd>+4", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(4))),
-        Keybind("<ctrl>+<alt>+<cmd>+5", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(5))),
-        Keybind("<ctrl>+<alt>+<cmd>+t", commands.ToggleMaximise()),
-        Keybind("<ctrl>+<alt>+<cmd>+g", commands.Minimise()),
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+u", commands.MoveToScreen(SCREEN_ID("LEFT"))),
-        Keybind("<ctrl>+<alt>+<cmd>+<shift>+i", commands.MoveToScreen(SCREEN_ID("RIGHT"))),
-        Keybind("<ctrl>+<alt>+<cmd>+u", commands.FocusScreen(SCREEN_ID("LEFT"))),
-        Keybind("<ctrl>+<alt>+<cmd>+i", commands.FocusScreen(SCREEN_ID("RIGHT"))),
-        Keybind("<ctrl>+<alt>+<cmd>+r", commands.StateDump()),
-        Keybind("<ctrl>+<alt>+<cmd>+f", commands.RecreateState()),
+        Keybind(f"{PREFIX}+<shift>+1", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(1))),
+        Keybind(f"{PREFIX}+<shift>+2", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(2))),
+        Keybind(f"{PREFIX}+<shift>+3", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(3))),
+        Keybind(f"{PREFIX}+<shift>+4", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(4))),
+        Keybind(f"{PREFIX}+<shift>+5", commands.SendToVirtualDesktop(VIRTUAL_DESKTOP_ID(5))),
+        Keybind(f"{PREFIX}+1", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(1))),
+        Keybind(f"{PREFIX}+2", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(2))),
+        Keybind(f"{PREFIX}+3", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(3))),
+        Keybind(f"{PREFIX}+4", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(4))),
+        Keybind(f"{PREFIX}+5", commands.FocusVirtualDesktop(VIRTUAL_DESKTOP_ID(5))),
+        Keybind(f"{PREFIX}+t", commands.ToggleMaximise()),
+        Keybind(f"{PREFIX}+g", commands.Minimise()),
+        Keybind(f"{PREFIX}+<shift>+u", commands.MoveToScreen(SCREEN_ID("LEFT"))),
+        Keybind(f"{PREFIX}+<shift>+i", commands.MoveToScreen(SCREEN_ID("RIGHT"))),
+        Keybind(f"{PREFIX}+u", commands.FocusScreen(SCREEN_ID("LEFT"))),
+        Keybind(f"{PREFIX}+i", commands.FocusScreen(SCREEN_ID("RIGHT"))),
+        Keybind(f"{PREFIX}+r", commands.StateDump()),
+        Keybind(f"{PREFIX}+f", commands.RecreateState()),
         Keybind(
-            "<ctrl>+<alt>+<cmd>+j",
+            f"{PREFIX}+j",
             commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.forward),
         ),
         Keybind(
-            "<ctrl>+<alt>+<cmd>+k",
+            f"{PREFIX}+k",
             commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.backward),
         ),
     ]
@@ -58,7 +60,6 @@ class KeyboardManager(keyboard.Listener):
     def __init__(self, event_queue: queue.Queue, *args, **kwargs) -> None:
         self._keys = set()
         self._event_queue = event_queue
-        self._matched = False
         super().__init__(win32_event_filter=self.win32_event_filter_as_handler, *args, **kwargs)
 
     def win32_event_filter_as_handler(self, msg, data):
@@ -103,7 +104,6 @@ class KeyboardManager(keyboard.Listener):
         if previous != after:
             for keybind in self.KEYBINDS:
                 if keybind.maybe_activate(self._keys, self._event_queue):
-                    self._matched = True
                     self.suppress_event()
                     break
 
