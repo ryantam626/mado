@@ -130,8 +130,12 @@ class WindowManager:
             logger.info("Recreating state...")
             self.state = WindowManagerState.new()
 
-    @staticmethod
-    def composited_focus_window(window: Window) -> None:
-        window_api.raise_and_focus_window(window.hwnd)
-        if MOUSE_FOLLOWS_FOCUS:
-            window_api.centre_mouse_in_rect(window_api.get_window_rect(window.hwnd))
+    def composited_focus_window(self, window: Window) -> None:
+        try:
+            window_api.raise_and_focus_window(window.hwnd)
+            if MOUSE_FOLLOWS_FOCUS:
+                window_api.centre_mouse_in_rect(window_api.get_window_rect(window.hwnd))
+        except Exception as exc:
+            logger.critical("Boom. Exception: {}", exc)
+            # fully reset state upon failure, cba to figure out what went wrong.
+            self.state = WindowManagerState.new()
