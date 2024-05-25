@@ -25,7 +25,7 @@ class Keybind:
 
 
 class KeyboardManager(keyboard.Listener):
-    PREFIX = "<ctrl>+<alt>+<cmd>"
+    PREFIX = "<f24>"
 
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
