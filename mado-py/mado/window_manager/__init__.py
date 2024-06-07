@@ -129,6 +129,10 @@ class WindowManager:
         elif isinstance(event, commands.RecreateState):
             logger.info("Recreating state...")
             self.state = WindowManagerState.new()
+        elif isinstance(event, commands.TogglePinWindow):
+            maybe_window_to_toggle = self.state.focused_screen.focused_window
+            if maybe_window_to_toggle is not None:
+                window_api.toggle_pin_window(maybe_window_to_toggle.hwnd)
 
     def composited_focus_window(self, window: Window) -> None:
         try:

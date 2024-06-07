@@ -47,6 +47,7 @@ class KeyboardManager(keyboard.Listener):
         Keybind(f"{PREFIX}+i", commands.FocusScreen(SCREEN_ID("RIGHT"))),
         Keybind(f"{PREFIX}+r", commands.StateDump()),
         Keybind(f"{PREFIX}+f", commands.RecreateState()),
+        Keybind(f"{PREFIX}+b", commands.TogglePinWindow()),
         Keybind(
             f"{PREFIX}+j",
             commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.forward),

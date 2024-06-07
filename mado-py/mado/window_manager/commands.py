@@ -72,3 +72,10 @@ class RecreateState(WindowManagerCommand):
     """
 
     pass
+
+
+@dataclasses.dataclass
+class TogglePinWindow(WindowManagerCommand):
+    """Pin current window."""
+
+    pass

@@ -5,6 +5,7 @@ import typing
 import win32con
 import win32gui
 from pynput.mouse import Button, Controller
+from pyvda import AppView
 from win32api import SetCursorPos
 from win32gui import GetForegroundWindow
 
@@ -150,3 +151,11 @@ def minimise_window(hwnd: int) -> None:
 
 def restore_window(hwnd: int) -> None:
     win32gui.ShowWindow(hwnd, win32con.SW_SHOWNOACTIVATE)
+
+
+def toggle_pin_window(hwnd: int) -> None:
+    view = AppView(hwnd)
+    if view.is_pinned():
+        view.unpin()
+    else:
+        view.pin()
