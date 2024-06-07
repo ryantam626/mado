@@ -58,9 +58,10 @@ class WindowManager:
     def handle_window_manager_event(self, event: events.WindowManagerEvent) -> None:
         # make sure we have the correct focused screen first.
         if isinstance(event, (events.FocusChange, events.Show, events.MoveResizeEnd)):
-            self.state.set_focused_screen_id(
-                monitor_handle=window_api.get_monitor_handle_from_window(event.window.hwnd)
-            )
+            if maybe_montior_handle := window_api.get_monitor_handle_from_window(event.window.hwnd):
+                self.state.set_focused_screen_id(
+                    monitor_handle=maybe_montior_handle
+                )
 
         if isinstance(event, events.FocusChange):
             self.state.set_focused_window(event.window)
