@@ -9,14 +9,17 @@ VIRTUAL_DESKTOP_IDS = [
 ]
 
 SCREEN_IDS = [
+    SCREEN_ID("MID"),
     SCREEN_ID("LEFT"),
     SCREEN_ID("RIGHT"),
+    SCREEN_ID("TOP"),
 ]
-INIT_FOCUSED_SCREEN_ID = SCREEN_IDS[1]
+INIT_FOCUSED_SCREEN_ID = SCREEN_IDS[0]
 
 IGNORED_WINDOW_TITLES = {
     "Task Switching",
     "Chrome Legacy Window",
+    "Citrix Workspace",
 }
 
 MOUSE_FOLLOWS_FOCUS = True

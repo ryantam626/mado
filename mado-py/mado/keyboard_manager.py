@@ -25,7 +25,7 @@ class Keybind:
 
 
 class KeyboardManager(keyboard.Listener):
-    PREFIX = "<f24>"
+    PREFIX = "<media_next>"
 
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
@@ -42,9 +42,13 @@ class KeyboardManager(keyboard.Listener):
         Keybind(f"{PREFIX}+t", commands.ToggleMaximise()),
         Keybind(f"{PREFIX}+g", commands.Minimise()),
         Keybind(f"{PREFIX}+<shift>+u", commands.MoveToScreen(SCREEN_ID("LEFT"))),
-        Keybind(f"{PREFIX}+<shift>+i", commands.MoveToScreen(SCREEN_ID("RIGHT"))),
+        Keybind(f"{PREFIX}+<shift>+i", commands.MoveToScreen(SCREEN_ID("MID"))),
+        Keybind(f"{PREFIX}+<shift>+8", commands.MoveToScreen(SCREEN_ID("TOP"))),
+        Keybind(f"{PREFIX}+<shift>+o", commands.MoveToScreen(SCREEN_ID("RIGHT"))),
         Keybind(f"{PREFIX}+u", commands.FocusScreen(SCREEN_ID("LEFT"))),
-        Keybind(f"{PREFIX}+i", commands.FocusScreen(SCREEN_ID("RIGHT"))),
+        Keybind(f"{PREFIX}+i", commands.FocusScreen(SCREEN_ID("MID"))),
+        Keybind(f"{PREFIX}+8", commands.FocusScreen(SCREEN_ID("TOP"))),
+        Keybind(f"{PREFIX}+o", commands.FocusScreen(SCREEN_ID("RIGHT"))),
         Keybind(f"{PREFIX}+r", commands.StateDump()),
         Keybind(f"{PREFIX}+f", commands.RecreateState()),
         Keybind(f"{PREFIX}+b", commands.TogglePinWindow()),
