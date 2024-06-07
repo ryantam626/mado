@@ -87,8 +87,8 @@ class WindowManager:
             pyvda.VirtualDesktop(number=event.virtual_desktop_id).go()
             # fully reset state, tracking state changes as we move virtual desktop is more pain than it's worth.
             self.state = WindowManagerState.new()
-            if window_to_move_mouse_to := self.state.focused_screen.focused_window:
-                self.maybe_move_mouse(window_to_move_mouse_to)
+            if window_to_focus := self.state.focused_screen.focused_window:
+                self.composited_focus_window(window_to_focus)
         elif isinstance(event, commands.SendToVirtualDesktop):
             if window_to_move := self.state.focused_screen.focused_window:
                 pyvda.AppView(hwnd=window_to_move.hwnd).move(
@@ -134,11 +134,6 @@ class WindowManager:
             maybe_window_to_toggle = self.state.focused_screen.focused_window
             if maybe_window_to_toggle is not None:
                 window_api.toggle_pin_window(maybe_window_to_toggle.hwnd)
-
-    @staticmethod
-    def maybe_move_mouse(window: Window) -> None:
-        if MOUSE_FOLLOWS_FOCUS:
-            window_api.centre_mouse_in_rect(window_api.get_window_rect(window.hwnd))
 
     def composited_focus_window(self, window: Window) -> None:
         try:
