@@ -79,3 +79,10 @@ class TogglePinWindow(WindowManagerCommand):
     """Pin current window."""
 
     pass
+
+
+@dataclasses.dataclass
+class Noop(WindowManagerCommand):
+    """Noop for silencing prefix hold down."""
+
+    pass

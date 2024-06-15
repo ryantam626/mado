@@ -60,6 +60,7 @@ class KeyboardManager(keyboard.Listener):
             f"{PREFIX}+k",
             commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.backward),
         ),
+        Keybind(f"{PREFIX}", commands.Noop()),
     ]
 
     def __init__(self, event_queue: queue.Queue, *args, **kwargs) -> None:
