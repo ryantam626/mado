@@ -25,7 +25,7 @@ class Keybind:
 
 
 class KeyboardManager(keyboard.Listener):
-    PREFIX = "<media_next>"
+    PREFIX = "<f24>"
 
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
