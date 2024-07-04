@@ -69,7 +69,7 @@ class WindowManager:
         if isinstance(event, events.Destroy):
             maybe_window_to_focus = self.state.unregister_window(event.window.hwnd)
             if maybe_window_to_focus is not None:
-                self.composited_focus_window(maybe_window_to_focus)
+                self.composited_focus_window(maybe_window_to_focus, disregard_mouse_move=True)
         elif isinstance(event, (events.Minimise, events.Hide)):
             self.state.unregister_window(event.window.hwnd)
         elif isinstance(event, (events.Show, events.Uncloak)):
@@ -135,10 +135,10 @@ class WindowManager:
             if maybe_window_to_toggle is not None:
                 window_api.toggle_pin_window(maybe_window_to_toggle.hwnd)
 
-    def composited_focus_window(self, window: Window) -> None:
+    def composited_focus_window(self, window: Window, disregard_mouse_move: bool = False) -> None:
         try:
             window_api.raise_and_focus_window(window.hwnd)
-            if MOUSE_FOLLOWS_FOCUS:
+            if MOUSE_FOLLOWS_FOCUS and not disregard_mouse_move:
                 window_api.centre_mouse_in_rect(window_api.get_window_rect(window.hwnd))
         except Exception as exc:
             logger.critical("Boom. Exception: {}", exc)
