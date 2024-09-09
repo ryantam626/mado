@@ -63,6 +63,18 @@ class KeyboardManager(keyboard.Listener):
         self._keys = set()
         self._event_queue = event_queue
         super().__init__(win32_event_filter=self.win32_event_filter_as_handler, *args, **kwargs)
+        self.cull_keybinds()
+
+    def cull_keybinds(self) -> None:
+        valid_screen_ids =  set(config.SCREEN_IDS)
+        self.KEYBINDS = [
+            keybind
+            for keybind in self.KEYBINDS
+            if not isinstance(keybind, (commands.FocusScreen, commands.MoveToScreen)) or (
+                    isinstance(keybind, (commands.FocusScreen, commands.MoveToScreen))
+                    and keybind.screen_id in valid_screen_ids
+            )
+        ]
 
     def win32_event_filter_as_handler(self, msg, data):
         """Hacky way of getting on keybind match -> suppress working.
