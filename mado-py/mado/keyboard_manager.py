@@ -27,7 +27,6 @@ class Keybind:
 
 class KeyboardManager(keyboard.Listener):
     PREFIX = config.PREFIX
-    PREFIX_ALONE_KEYS = {KeyCode.from_char(PREFIX)}
 
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
@@ -105,7 +104,7 @@ class KeyboardManager(keyboard.Listener):
         self._keys.add(self.canonical(key))
         after = len(self._keys)
 
-        if self._keys >= self.PREFIX_ALONE_KEYS and previous != after:
+        if previous != after:
             for keybind in self.KEYBINDS:
                 if keybind.maybe_activate(self._keys, self._event_queue):
                     self.suppress_event()
