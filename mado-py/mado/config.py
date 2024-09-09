@@ -8,6 +8,8 @@ VIRTUAL_DESKTOP_IDS = [
     VIRTUAL_DESKTOP_ID(5),  # Misc
 ]
 
+PREFIX = "<f24>"
+
 SCREEN_IDS = [
     SCREEN_ID("LEFT"),
     SCREEN_ID("RIGHT"),

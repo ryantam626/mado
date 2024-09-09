@@ -5,6 +5,7 @@ from loguru import logger
 from pynput import keyboard
 from pynput.keyboard import KeyCode
 
+from mado import config
 from mado.types_ import SCREEN_ID, VIRTUAL_DESKTOP_ID
 from mado.window_manager import commands
 
@@ -25,7 +26,8 @@ class Keybind:
 
 
 class KeyboardManager(keyboard.Listener):
-    PREFIX = "<f24>"
+    PREFIX = config.PREFIX
+    PREFIX_ALONE_KEYS = {KeyCode.from_char(PREFIX)}
 
     # This is manually ordered, so list the most specific ones first.
     KEYBINDS = [
@@ -56,7 +58,6 @@ class KeyboardManager(keyboard.Listener):
             f"{PREFIX}+k",
             commands.CycleFocusedWindow(commands.CycleFocusedWindow.Direction.backward),
         ),
-        Keybind(f"{PREFIX}", commands.Noop()),
     ]
 
     def __init__(self, event_queue: queue.Queue, *args, **kwargs) -> None:
@@ -103,7 +104,8 @@ class KeyboardManager(keyboard.Listener):
         previous = len(self._keys)
         self._keys.add(self.canonical(key))
         after = len(self._keys)
-        if previous != after:
+
+        if self._keys >= self.PREFIX_ALONE_KEYS and previous != after:
             for keybind in self.KEYBINDS:
                 if keybind.maybe_activate(self._keys, self._event_queue):
                     self.suppress_event()
