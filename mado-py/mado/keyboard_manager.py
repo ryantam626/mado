@@ -8,6 +8,7 @@ from pynput.keyboard import KeyCode
 from mado import config
 from mado.types_ import SCREEN_ID, VIRTUAL_DESKTOP_ID
 from mado.window_manager import commands
+from mado.window_manager.state import WINDOW_MANAGER_STATE, WindowManagerState
 
 parse = keyboard.HotKey.parse
 
@@ -66,13 +67,15 @@ class KeyboardManager(keyboard.Listener):
         self.cull_keybinds()
 
     def cull_keybinds(self) -> None:
-        valid_screen_ids =  set(config.SCREEN_IDS)
+        state: WindowManagerState = WINDOW_MANAGER_STATE.get()
+
+        valid_screen_ids =  set(state.screens)
         self.KEYBINDS = [
             keybind
             for keybind in self.KEYBINDS
-            if not isinstance(keybind, (commands.FocusScreen, commands.MoveToScreen)) or (
-                    isinstance(keybind, (commands.FocusScreen, commands.MoveToScreen))
-                    and keybind.screen_id in valid_screen_ids
+            if not isinstance(keybind._command, (commands.FocusScreen, commands.MoveToScreen)) or (
+                    isinstance(keybind._command, (commands.FocusScreen, commands.MoveToScreen))
+                    and keybind._command.screen_id in valid_screen_ids
             )
         ]
 

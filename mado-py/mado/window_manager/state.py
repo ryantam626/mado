@@ -1,6 +1,6 @@
 ﻿import dataclasses
 import typing
-from itertools import zip_longest
+from contextvars import ContextVar
 
 import win32gui
 import zipper
@@ -8,12 +8,13 @@ from loguru import logger
 from win32api import EnumDisplayMonitors, GetMonitorInfo
 
 from mado import window_api
-from mado.config import IGNORED_WINDOW_TITLES, INIT_FOCUSED_SCREEN_ID, SCREEN_IDS
+from mado.config import IGNORED_WINDOW_TITLES, INIT_FOCUSED_SCREEN_ID, SCREEN_IDS, SCREEN_REMOVAL_PRIORITY
 from mado.types_ import MONITOR_HANDLE, SCREEN_ID, WINDOW_HANDLE
 from mado.window import Window
 from mado.window_manager import commands
 
 WINDOW_AT_CURSOR = object()
+WINDOW_MANAGER_STATE = ContextVar("WINDOW_MANAGER_STATE")
 
 
 @dataclasses.dataclass
@@ -138,19 +139,28 @@ class WindowManagerState:
         windows = {}
         screens = {}
         screens_by_handle = {}
-        for display_monitor, screen_id in zip_longest(EnumDisplayMonitors(), SCREEN_IDS):
-            if display_monitor and screen_id is None:
-                raise RuntimeError("Not enough screen IDs.")
 
-            if display_monitor is not None:
-                (monitor_handle, _, _) = display_monitor
-                screen = Screen.from_handle(monitor_handle, screen_id)
-                screens[screen_id] = screen
-                screens_by_handle[MONITOR_HANDLE(int(monitor_handle))] = screen
+        # automatically figure out which screen ids to use
+        screens_to_use = SCREEN_IDS
+        display_monitors = EnumDisplayMonitors()
+        num_monitors = len(display_monitors)
+        if len(screens_to_use) < num_monitors:
+            raise RuntimeError("Not enough screen IDs.")
+        else:
+            for screen_to_remove in SCREEN_REMOVAL_PRIORITY[:(len(screens_to_use) - num_monitors)]:
+                logger.info(f"Removing screen {screen_to_remove}.")
+                screens_to_use.remove(screen_to_remove)
+
+        for display_monitor, screen_id in zip(display_monitors, screens_to_use):
+            (monitor_handle, _, _) = display_monitor
+            screen = Screen.from_handle(monitor_handle, screen_id)
+            screens[screen_id] = screen
+            screens_by_handle[MONITOR_HANDLE(int(monitor_handle))] = screen
 
         focused_screen_id = INIT_FOCUSED_SCREEN_ID
         state = WindowManagerState(windows, screens, screens_by_handle, focused_screen_id)
         state.init_enum_windows()
+        WINDOW_MANAGER_STATE.set(state)
         return state
 
     def init_enum_windows(self):

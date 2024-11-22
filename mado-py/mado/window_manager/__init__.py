@@ -17,11 +17,12 @@ from mado.window_manager.state import Screen, WindowManagerState
 class WindowManager:
 
     def __init__(self) -> None:
+        self.state = WindowManagerState.new()
+
         self.event_queue = queue.Queue()
         self.win_event_listener = WinEventHookListener(event_queue=self.event_queue)
         self.keyboard_manager = KeyboardManager(event_queue=self.event_queue)
 
-        self.state = WindowManagerState.new()
         self.should_not_manage_next_focus = False
 
         self.maybe_populate_virtual_desktop()
